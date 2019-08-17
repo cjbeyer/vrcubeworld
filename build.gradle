@@ -1,0 +1,67 @@
+buildscript {
+  repositories {
+    google()
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:3.4.2'
+  }
+}
+
+repositories {
+  google()
+  jcenter()
+}
+
+apply plugin: 'com.android.application'
+
+android {
+  compileSdkVersion 28
+  defaultConfig {
+    applicationId 'com.oculus.vrcubeworldvk'
+    minSdkVersion 25
+    targetSdkVersion 28
+    versionCode 1
+    versionName '1.0'
+    ndk {
+      abiFilters 'armeabi-v7a', 'arm64-v8a'
+    }
+    sourceSets {
+      debug {
+        jniLibs.srcDirs = ['vrapi_lib/Debug']
+      }
+      release {
+        jniLibs.srcDirs = ['vrapi_lib/Release']
+      }
+    }
+  }
+  sourceSets {
+    main {
+      java.srcDir 'java'
+      manifest.srcFile 'AndroidManifest.xml'
+    }
+  }
+  externalNativeBuild {
+    cmake {
+      path 'CMakeLists.txt'
+      version '3.10.2'
+    }
+  }
+  signingConfigs {
+    release {
+      storeFile file("testing.keystore")
+      storePassword 'testing'
+      keyAlias 'test'
+      keyPassword 'testing'
+    }
+  }
+  buildTypes {
+    release {
+      signingConfig signingConfigs.release
+    }
+    debug {
+      debuggable true
+    }
+  }
+}
+

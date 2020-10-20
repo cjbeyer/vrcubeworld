@@ -1,7 +1,9 @@
 build/
 local.properties
 .externalNativeBuild/
+.cxx/
 .gradle/
 .idea/
 *.iml
 testing.keystore
+
